@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MetAClass — Diseño Instruccional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,300;1,6..72,400;1,6..72,500&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2EEE5;
+  --ink:#14141C;
+  --muted:#6E6A60;
+  --hair:#D9D2C2;
+  --hair-strong:#A8A294;
+  --red:#A82A1F;
+  --highlight:#EBC65A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Geist',-apple-system,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  font-size:17px;
+  line-height:1.55;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+.wrap{max-width:1240px;margin:0 auto;padding:0 2rem}
+.mono{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+
+/* MASTHEAD */
+.masthead{
+  border-bottom:1px solid var(--ink);
+  padding:.85rem 2rem;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--paper);
+  position:sticky;top:0;z-index:50;
+}
+.masthead-left{display:flex;gap:1.75rem}
+.masthead-left span{color:var(--muted)}
+.masthead-left b{color:var(--ink);font-weight:600}
+.masthead-right{font-weight:600;letter-spacing:.15em}
+
+/* HERO */
+.hero{padding:3.5rem 0 2.5rem;border-bottom:1px solid var(--hair)}
+.hero-meta{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:3.5rem;flex-wrap:wrap;gap:1rem;
+}
+.hero-meta .left{display:flex;gap:2rem;flex-wrap:wrap}
+.hero-meta .left div{display:flex;flex-direction:column;gap:.25rem}
+.hero-meta .left b{font-family:'Geist';font-size:.85rem;font-weight:500;color:var(--ink);text-transform:none;letter-spacing:0}
+h1.hero-title{
+  font-family:'Newsreader',serif;
+  font-size:clamp(3rem,9vw,7.5rem);
+  font-weight:400;line-height:.92;
+  letter-spacing:-.03em;
+  margin-bottom:2rem;max-width:18ch;
+}
+h1.hero-title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.hero-lede{
+  font-family:'Newsreader',serif;
+  font-size:clamp(1.2rem,2vw,1.5rem);
+  line-height:1.45;font-weight:300;
+  max-width:46ch;color:var(--ink);
+  margin-top:1.5rem;padding-top:1.5rem;
+  border-top:1px solid var(--hair);
+}
+.hero-lede::first-letter{
+  font-family:'Instrument Serif',serif;font-style:italic;
+  font-size:1.15em;font-weight:400;
+}
+
+/* TOC */
+.toc{padding:3rem 0;border-bottom:1px solid var(--hair)}
+.toc-head{display:grid;grid-template-columns:1fr 3fr;gap:2rem;align-items:baseline;margin-bottom:2rem}
+.toc-head h3{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.5rem;font-weight:400}
+.toc-head p{font-size:.95rem;color:var(--muted);max-width:50ch}
+.toc-list{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:.4rem 4rem;
+  border-top:1px solid var(--ink);padding-top:1.25rem;
+}
+.toc-item{
+  display:flex;align-items:baseline;gap:1rem;
+  padding:.6rem 0;
+  border-bottom:1px dotted var(--hair-strong);
+  text-decoration:none;color:inherit;
+  transition:padding .2s ease,color .2s ease;
+}
+.toc-item:hover{padding-left:.5rem;color:var(--red)}
+.toc-item .num{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--muted);width:2.5em;flex-shrink:0}
+.toc-item .label{flex:1;font-family:'Newsreader',serif;font-size:1.1rem}
+.toc-item .label em{font-family:'Instrument Serif',serif;font-style:italic}
+.toc-item .pg{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted)}
+
+/* SECTIONS */
+.section{padding:5rem 0 4rem;border-bottom:1px solid var(--hair)}
+.section-grid{display:grid;grid-template-columns:200px 1fr;gap:3rem}
+.section-marker{position:sticky;top:6rem;align-self:start}
+.section-marker .num{
+  font-family:'Instrument Serif',serif;font-style:italic;
+  font-size:5rem;font-weight:400;line-height:1;color:var(--ink);
+  margin-bottom:.5rem;
+}
+.section-marker .lbl{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+  border-top:1px solid var(--ink);padding-top:.5rem;
+}
+.section-body{max-width:660px}
+.section-body h2{
+  font-family:'Newsreader',serif;
+  font-size:clamp(1.75rem,3vw,2.5rem);
+  font-weight:500;line-height:1.1;
+  letter-spacing:-.015em;margin-bottom:2rem;max-width:20ch;
+}
+.section-body h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.section-body p{
+  font-family:'Newsreader',serif;
+  font-size:1.18rem;line-height:1.55;
+  color:var(--ink);margin-bottom:1.1rem;font-weight:400;
+}
+.section-body p.dropcap::first-letter{
+  font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;
+  font-size:4.5rem;line-height:.85;float:left;
+  padding:.3rem .5rem 0 0;color:var(--red);
+}
+.section-body strong{font-weight:600}
+.section-body em.iital{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+
+.spec{
+  margin-top:1.5rem;border-top:1px solid var(--ink);padding-top:1rem;
+  display:grid;grid-template-columns:160px 1fr;
+  gap:.5rem 1.5rem;font-size:.9rem;
+}
+.spec dt{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:.15rem}
+.spec dd{font-family:'Newsreader',serif;font-size:1.05rem;color:var(--ink)}
+
+/* STATEMENT */
+.statement{
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--ink);
+  padding:2rem 0;margin:2rem 0;
+}
+.statement .label{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--red);font-weight:500;margin-bottom:1rem;
+}
+.statement .quote{
+  font-family:'Newsreader',serif;
+  font-size:clamp(1.4rem,2.4vw,2rem);
+  line-height:1.25;font-weight:400;letter-spacing:-.01em;
+}
+.statement .quote em{font-family:'Instrument Serif',serif;font-style:italic}
+
+/* TIMELINE */
+.timeline{margin-top:1.5rem;border-top:1px solid var(--ink)}
+.tl-row{
+  display:grid;grid-template-columns:90px 110px 1fr;gap:2rem;
+  padding:2rem 0;border-bottom:1px solid var(--hair-strong);align-items:start;
+}
+.tl-num{font-family:'Instrument Serif',serif;font-style:italic;font-size:3rem;font-weight:400;line-height:.9}
+.tl-meta{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:.75rem}
+.tl-meta b{display:block;color:var(--ink);font-weight:600;margin-bottom:.25rem;font-size:.95rem;font-family:'Newsreader',serif;text-transform:none;letter-spacing:0}
+.tl-content h4{font-family:'Newsreader',serif;font-size:1.4rem;font-weight:500;margin-bottom:.5rem}
+.tl-content h4 em{font-family:'Instrument Serif',serif;font-style:italic}
+.tl-content p{font-family:'Newsreader',serif;font-size:1.05rem;color:var(--ink);line-height:1.55}
+
+/* JUSTIFICATION */
+.justification{
+  background:var(--ink);color:var(--paper);
+  padding:3rem 2.5rem;margin-top:2rem;border-radius:2px;
+}
+.justification .label{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--highlight);margin-bottom:1.5rem;
+}
+.justification p{font-family:'Newsreader',serif;font-size:1.2rem;line-height:1.5;font-weight:300;color:var(--paper)}
+.justification p+p{margin-top:1rem}
+.justification em{font-family:'Instrument Serif',serif;font-style:italic;color:var(--highlight)}
+
+/* WIREFRAMES */
+.wf-section{padding:6rem 0 4rem;border-bottom:1px solid var(--hair);background:var(--paper)}
+.wf-head{
+  display:grid;grid-template-columns:1fr 2fr;gap:3rem;
+  margin-bottom:4rem;align-items:end;
+  border-bottom:1px solid var(--ink);padding-bottom:2rem;
+}
+.wf-head h2{font-family:'Newsreader',serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:500;line-height:1;letter-spacing:-.02em}
+.wf-head h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.wf-head p{font-family:'Newsreader',serif;font-size:1.15rem;color:var(--muted);max-width:48ch;line-height:1.5}
+
+.wf-hero{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-bottom:5rem}
+.wf-hero .copy h3{font-family:'Newsreader',serif;font-size:2rem;font-weight:500;line-height:1.1;margin-bottom:1rem;letter-spacing:-.01em}
+.wf-hero .copy h3 em{font-family:'Instrument Serif',serif;font-style:italic}
+.wf-hero .copy p{font-family:'Newsreader',serif;font-size:1.1rem;color:var(--muted);line-height:1.55;margin-bottom:1.5rem}
+.wf-hero .copy .fig{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:1rem}
+.wf-hero .phone-wrap{display:flex;justify-content:center}
+.phone-big{transform:scale(1.15);transform-origin:center}
+
+.wf-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:3.5rem 2rem;padding-top:3rem;border-top:1px solid var(--hair-strong);
+}
+.wf-figure{display:flex;flex-direction:column;align-items:center;text-align:center}
+.wf-figure .phone-wrap{margin-bottom:1.25rem}
+.wf-figure .fig-label{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+.wf-figure h5{font-family:'Newsreader',serif;font-size:1.2rem;font-weight:500;margin-bottom:.4rem}
+.wf-figure h5 em{font-family:'Instrument Serif',serif;font-style:italic}
+.wf-figure p{font-size:.88rem;color:var(--muted);max-width:24ch;line-height:1.5;font-family:'Newsreader',serif}
+
+/* PHONE */
+.phone{
+  width:260px;height:540px;background:#1f1f28;
+  border-radius:38px;padding:8px;
+  box-shadow:0 1px 0 #2a2a35 inset,0 30px 60px -20px rgba(20,20,28,.25),0 10px 20px -10px rgba(20,20,28,.15);
+  position:relative;
+}
+.phone::before{content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);width:80px;height:20px;background:#1f1f28;border-radius:0 0 12px 12px;z-index:5}
+.phone-screen{width:100%;height:100%;background:#FAFAF6;border-radius:30px;position:relative;overflow:hidden}
+.s-bar{height:30px;display:flex;justify-content:space-between;align-items:center;padding:6px 18px 0;font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;color:#444}
+.s-content{height:calc(100% - 30px);padding:.85rem .9rem;position:relative;display:flex;flex-direction:column}
+
+.bar{height:8px;background:#D9D5CC;border-radius:2px;margin:.3rem 0}
+.bar.tt{height:12px;background:#3a3a42;width:60%}
+.bar.t2{height:10px;background:#6b6b72;width:75%}
+.bar.s{width:50%}
+.bar.m{width:75%}
+.bar.f{width:100%}
+.bar.tiny{height:6px;width:35%}
+
+.btn-w{background:#1f1f28;color:#FAFAF6;border-radius:18px;padding:.55rem .8rem;font-family:'Geist';font-size:.7rem;font-weight:600;text-align:center;letter-spacing:.05em}
+.btn-w.outline{background:transparent;color:#1f1f28;border:1px solid #1f1f28}
+.chip{display:inline-block;font-family:'Geist';font-size:.55rem;background:#E8E4D8;padding:.25rem .5rem;border-radius:10px;font-weight:500;color:#3a3a42}
+
+/* Screen 1: Portada */
+.scr1{justify-content:space-between;align-items:center;text-align:center;padding-top:1.5rem}
+.scr1 .brand-mark{font-family:'Instrument Serif',serif;font-style:italic;font-size:2.5rem;line-height:1;color:#1f1f28}
+.scr1 .brand-sub{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:#6b6b72;margin-top:.25rem}
+.scr1 .vowels{display:flex;gap:.5rem;margin:1.5rem 0}
+.scr1 .vw{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-style:italic;font-size:1.1rem;background:#E8E4D8;color:#1f1f28}
+.scr1 .tagline{font-family:'Newsreader',serif;font-size:.85rem;color:#3a3a42;line-height:1.3;max-width:80%;margin-bottom:auto}
+.scr1 .btns{width:100%;display:flex;flex-direction:column;gap:.4rem;margin-bottom:.5rem}
+
+/* Screen 2: Menú */
+.scr2{gap:.5rem}
+.scr2 .greeting{font-family:'Newsreader',serif;font-size:1.05rem;line-height:1.2;font-weight:500;margin-bottom:.4rem}
+.scr2 .greeting em{font-family:'Instrument Serif',serif;font-style:italic}
+.scr2 .menu-item{background:#F2EEE5;border:1px solid #D9D5CC;border-radius:10px;padding:.6rem .7rem;display:flex;align-items:center;gap:.65rem}
+.scr2 .menu-item .n{font-family:'Instrument Serif',serif;font-style:italic;font-size:1.4rem;color:#1f1f28;width:24px;text-align:center}
+.scr2 .menu-item .info{flex:1}
+.scr2 .menu-item .info .ttl{font-size:.72rem;font-weight:600;color:#1f1f28;margin-bottom:.15rem}
+.scr2 .menu-item .info .desc{font-size:.6rem;color:#6b6b72;line-height:1.3}
+.scr2 .menu-item.active{background:#1f1f28;color:#FAFAF6}
+.scr2 .menu-item.active .n,.scr2 .menu-item.active .info .ttl{color:#FAFAF6}
+.scr2 .menu-item.active .info .desc{color:#bbb6a8}
+
+/* Screen 3 */
+.scr3{gap:.5rem}
+.scr3 .q{font-family:'Newsreader',serif;font-size:.95rem;font-weight:500;line-height:1.2}
+.scr3 .q em{font-family:'Instrument Serif',serif;font-style:italic;color:#A82A1F}
+.scr3 .grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;flex:1;margin-top:.5rem}
+.scr3 .item{background:#E8E4D8;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:.5rem;gap:.25rem}
+.scr3 .item .img-ph{width:32px;height:32px;background:#C4BEAE;border-radius:6px}
+.scr3 .item .lbl{font-family:'Geist';font-size:.55rem;font-weight:500;color:#3a3a42}
+.scr3 .item.selected{background:#1f1f28}
+.scr3 .item.selected .lbl{color:#FAFAF6}
+.scr3 .item.selected .img-ph{background:#444}
+
+/* Screen 4 */
+.scr4{gap:.4rem}
+.scr4 .video{flex:1;background:#1f1f28;border-radius:8px;display:flex;align-items:center;justify-content:center;position:relative}
+.scr4 .play{width:42px;height:42px;border-radius:50%;background:#FAFAF6;display:flex;align-items:center;justify-content:center}
+.scr4 .play::after{content:'';width:0;height:0;border-left:10px solid #1f1f28;border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
+.scr4 .progress{position:absolute;bottom:.5rem;left:.5rem;right:.5rem;height:2px;background:rgba(255,255,255,.3);border-radius:1px}
+.scr4 .progress::before{content:'';position:absolute;left:0;top:0;width:35%;height:100%;background:#FAFAF6;border-radius:1px}
+.scr4 .chips{display:flex;gap:.25rem;flex-wrap:wrap;margin-top:.3rem}
+
+/* Screen 5: AR */
+.scr5{gap:.4rem;padding:0}
+.scr5 .top-bar{padding:.7rem .85rem .3rem;display:flex;justify-content:space-between;align-items:center}
+.scr5 .top-bar .crumb{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:#6b6b72}
+.scr5 .cam{flex:1;margin:0 .85rem;border-radius:10px;background:linear-gradient(135deg,#2a2a35 0%,#1f1f28 100%);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.scr5 .corners::before,.scr5 .corners::after,.scr5 .corners-b::before,.scr5 .corners-b::after{content:'';position:absolute;width:18px;height:18px;border:1.5px solid #FAFAF6}
+.scr5 .corners::before{top:10px;left:10px;border-right:0;border-bottom:0}
+.scr5 .corners::after{top:10px;right:10px;border-left:0;border-bottom:0}
+.scr5 .corners-b::before{bottom:10px;left:10px;border-right:0;border-top:0}
+.scr5 .corners-b::after{bottom:10px;right:10px;border-left:0;border-top:0}
+.scr5 .marker{width:70px;height:70px;border-radius:8px;background:#FAFAF6;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-style:italic;font-size:3rem;color:#A82A1F;box-shadow:0 6px 20px rgba(0,0,0,.3);position:relative}
+.scr5 .marker::after{content:'';position:absolute;inset:-6px;border:1.5px dashed #EBC65A;border-radius:10px;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+.scr5 .label-ar{position:absolute;bottom:1.2rem;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:#FAFAF6;background:rgba(0,0,0,.5);padding:.25rem .6rem;border-radius:10px}
+.scr5 .ctrl{padding:.6rem .85rem .85rem;display:flex;gap:.4rem}
+.scr5 .ctrl .btn-w{flex:1}
+
+/* Screen 6 */
+.scr6{justify-content:center;align-items:center;text-align:center;gap:.6rem;padding-top:1.5rem}
+.scr6 .medal{width:64px;height:64px;border-radius:50%;background:#EBC65A;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-style:italic;font-size:2rem;color:#1f1f28;box-shadow:0 8px 20px rgba(235,198,90,.4)}
+.scr6 h6{font-family:'Newsreader',serif;font-size:1.1rem;font-weight:500;line-height:1.1;margin-top:.5rem}
+.scr6 h6 em{font-family:'Instrument Serif',serif;font-style:italic;color:#A82A1F}
+.scr6 .desc-line{font-family:'Newsreader',serif;font-size:.78rem;color:#6b6b72;line-height:1.3;max-width:85%}
+.scr6 .stars{display:flex;gap:.3rem;margin:.4rem 0}
+.scr6 .star{width:18px;height:18px;background:#D9D5CC;border-radius:3px}
+.scr6 .star.on{background:#EBC65A}
+.scr6 .actions{width:100%;display:flex;flex-direction:column;gap:.35rem;margin-top:auto}
+
+/* COLOPHON */
+.colophon{padding:5rem 0 3rem;background:var(--ink);color:var(--paper)}
+.col-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.5rem;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:3rem;margin-bottom:1.5rem}
+.col-grid .brand{font-family:'Newsreader',serif;font-size:2.5rem;line-height:.9;font-weight:500;letter-spacing:-.02em}
+.col-grid .brand em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;display:block;font-size:1.5rem;color:var(--highlight);margin-top:.5rem}
+.col-grid h6{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--highlight);margin-bottom:1rem;font-weight:500}
+.col-grid p,.col-grid li{font-family:'Newsreader',serif;font-size:.95rem;line-height:1.5;color:rgba(242,238,229,.75)}
+.col-grid ul{list-style:none}
+.col-bottom{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(242,238,229,.5)}
+
+/* REFERENCES (APA) */
+.refs{margin-top:1.5rem;border-top:1px solid var(--ink);padding-top:.5rem;list-style:none}
+.refs li{
+  font-family:'Newsreader',serif;
+  font-size:1.05rem;line-height:1.5;
+  padding:1rem 0 1rem 2rem;
+  text-indent:-2rem;
+  border-bottom:1px solid var(--hair-strong);
+  color:var(--ink);
+}
+.refs li:last-child{border-bottom:0}
+.refs em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.refs a{color:var(--red);text-decoration:none;border-bottom:1px solid var(--hair-strong)}
+.refs a:hover{border-bottom-color:var(--red)}
+
+/* IA DECLARATION */
+.ia-block{
+  border:1px solid var(--ink);
+  background:var(--paper);
+  padding:2.5rem 2.5rem;
+  margin-top:1.5rem;
+  position:relative;
+}
+.ia-block::before{
+  content:'';
+  position:absolute;top:-1px;left:-1px;right:-1px;height:6px;
+  background:var(--red);
+}
+.ia-block .label{
+  font-family:'JetBrains Mono',monospace;font-size:.7rem;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--red);
+  font-weight:500;margin-bottom:1.25rem;
+}
+.ia-block p{
+  font-family:'Newsreader',serif;font-size:1.1rem;line-height:1.6;
+  color:var(--ink);margin-bottom:1rem;
+}
+.ia-block p:last-child{margin-bottom:0}
+.ia-block strong{font-weight:600}
+.ia-block em{font-family:'Instrument Serif',serif;font-style:italic}
+.ia-tools{
+  margin-top:1.5rem;padding-top:1.25rem;
+  border-top:1px solid var(--hair-strong);
+  display:grid;grid-template-columns:160px 1fr;gap:.5rem 1.5rem;
+}
+.ia-tools dt{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:.15rem}
+.ia-tools dd{font-family:'Newsreader',serif;font-size:1rem;color:var(--ink)}
+
+@media (max-width:900px){
+  .section-grid{grid-template-columns:1fr;gap:1.5rem}
+  .section-marker{position:static}
+  .section-marker .num{font-size:3.5rem}
+  .toc-list{grid-template-columns:1fr}
+  .wf-hero{grid-template-columns:1fr;gap:2rem}
+  .wf-head{grid-template-columns:1fr;gap:1.5rem;align-items:start}
+  .col-grid{grid-template-columns:1fr;gap:2rem}
+  .tl-row{grid-template-columns:1fr;gap:.5rem}
+  .tl-num{font-size:2rem}
+  .spec{grid-template-columns:1fr;gap:.25rem 0}
+  .spec dd{margin-bottom:.75rem}
+  .ia-tools{grid-template-columns:1fr;gap:.25rem 0}
+  .ia-tools dd{margin-bottom:.5rem}
+  .ia-block{padding:1.5rem}
+  .masthead{font-size:.6rem}
+  .masthead-left{gap:.75rem}
+  .hero-meta .left{gap:1rem}
+  .phone-big{transform:scale(1)}
+  .toc-head{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-left">
+    <span><b>Tomo 01</b></span>
+    <span>Abril 2026</span>
+    <span>Actividad 01</span>
+  </div>
+  <div class="masthead-right">MetAClass</div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-meta">
+      <div class="left">
+        <div><span class="mono">Curso</span><b>Diseño instruccional</b></div>
+        <div><span class="mono">Actividad</span><b>App educativa</b></div>
+        <div><span class="mono">Modalidad</span><b>Colaborativa · 4 estudiantes</b></div>
+        <div><span class="mono">Grado</span><b>Primero · 6–7 años</b></div>
+        <div><span class="mono">Autor</span><b>Eric Daniel Zúñiga Arredondo</b></div>
+      </div>
+      <div class="mono">№ 01 / 01</div>
+    </div>
+    <h1 class="hero-title">Aprender las vocales con <em>realidad aumentada.</em></h1>
+    <p class="hero-lede">Una propuesta de aplicación educativa para grado primero que articula exploración guiada, video animado y experiencias en realidad aumentada para fortalecer el reconocimiento de las cinco vocales y la lectura de palabras sencillas.</p>
+  </div>
+</header>
+
+<section class="toc">
+  <div class="wrap">
+    <div class="toc-head">
+      <h3>Índice.</h3>
+      <p>Documento de propuesta organizado en siete momentos que componen el diseño instruccional, seguido de un anexo visual con las pantallas de la aplicación.</p>
+    </div>
+    <div class="toc-list">
+      <a href="#s1" class="toc-item"><span class="num">01</span><span class="label">Tema y propósito</span><span class="pg">p. 01</span></a>
+      <a href="#s2" class="toc-item"><span class="num">02</span><span class="label">Público y contexto</span><span class="pg">p. 02</span></a>
+      <a href="#s3" class="toc-item"><span class="num">03</span><span class="label">Problema de aprendizaje</span><span class="pg">p. 03</span></a>
+      <a href="#s4" class="toc-item"><span class="num">04</span><span class="label">Resultado de aprendizaje</span><span class="pg">p. 04</span></a>
+      <a href="#s5" class="toc-item"><span class="num">05</span><span class="label">Evidencia de aprendizaje</span><span class="pg">p. 05</span></a>
+      <a href="#s6" class="toc-item"><span class="num">06</span><span class="label">Secuencia didáctica</span><span class="pg">p. 06</span></a>
+      <a href="#s7" class="toc-item"><span class="num">07</span><span class="label">Tipo de evaluación</span><span class="pg">p. 07</span></a>
+      <a href="#s8" class="toc-item"><span class="num">08</span><span class="label">Referencias bibliográficas</span><span class="pg">p. 08</span></a>
+      <a href="#s9" class="toc-item"><span class="num">09</span><span class="label"><em>Anexo —</em> Pantallas de la app</span><span class="pg">p. 09</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="s1">
+  <div class="wrap">
+    <div class="section-grid">
+      <aside class="section-marker">
+        <div class="num">01</div>
+        <div class="lbl">Tema</div>
+      </aside>
+      <div class="section-body">
+        <h2>Una app para descubrir las <em>vocales</em>.</h2>
+        <p class="dropcap">La presente propuesta plantea el desarrollo de <strong>MetAClass</strong>, una aplicación educativa orientada al aprendizaje inicial de las vocales mediante experiencias interactivas en realidad aumentada. La propuesta articula contenido visual, narrativo y manipulativo en un mismo recurso, ofreciendo a los estudiantes de grado primero un espacio de exploración que va más allá del libro de texto tradicional.</p>
+        <dl class="spec">
+          <dt>Título</dt><dd>MetAClass — Aprendiendo las vocales</dd>
+          <dt>Eje pedagógico</dt><dd>Lectoescritura · Lectura inicial</dd>
+          <dt>Recurso central</dt><dd>Tarjetas físicas + capa de Realidad Aumentada</dd>
+          <dt>Duración estimada</dt><dd>Una sesión de 45 minutos</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="s2">
+  <div class="wrap">
+    <div class="section-grid">
+      <aside class="section-marker">
+        <div class="num">02</div>
+        <div class="lbl">Público y contexto</div>
+      </aside>
+      <div class="section-body">
+        <h2>A quién va dirigida esta propuesta.</h2>
+        <p class="dropcap">Niñas y niños de seis a siete años cursando <strong>grado primero</strong> de básica primaria, en proceso inicial de lectoescritura. La propuesta se proyecta para instituciones educativas de contexto urbano con acceso a tabletas o dispositivos móviles en aula y acompañamiento docente activo.</p>
+        <p>El recurso se diseña para integrarse dentro de una sesión regular de clase, sin requerir conocimientos técnicos previos por parte de los estudiantes. La interfaz prioriza íconos, audio y elementos visuales sobre texto extenso, en coherencia con un público que aún se encuentra construyendo su lectura autónoma.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="s3">
+  <div class="wrap">
+    <div class="section-grid">
+      <aside class="section-marker">
+        <div class="num">03</div>
+        <div class="lbl">Problema</div>
+      </aside>
+      <div class="section-body">
+        <h2>Qué dificultad busca atender.</h2>
+        <p class="dropcap">Una proporción significativa del estudiantado de grado primero presenta dificultades en el <strong>reconocimiento de las vocales</strong> y en la asociación entre grafía, sonido e imagen. Estas dificultades no son anecdóticas: condicionan los procesos posteriores de comprensión lectora y de construcción de palabras sencillas.</p>
+        <p>Las prácticas pedagógicas tradicionales, basadas exclusivamente en repetición y copia, no siempre logran sostener la atención de niños de esta edad. La propuesta busca incorporar un elemento de <em class="iital">novedad y asombro</em> —la realidad aumentada— como vehículo para anclar el aprendizaje en una experiencia memorable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="s4">
+  <div class="wrap">
+    <div class="section-grid">
+      <aside class="section-marker">
+        <div class="num">04</div>
+        <div class="lbl">Resultado</div>
+      </aside>
+      <div class="section-body">
+        <h2>Lo que el estudiante <em>logrará</em>.</h2>
+        <div class="statement">
+          <div class="label">Resultado de aprendizaje</div>
+          <p class="quote">Al finalizar la secuencia, el estudiante <em>reconoce e identifica</em> las cinco vocales —A, E, I, O, U— y las asocia con palabras e imágenes mediante el uso de realidad aumentada.</p>
+        </div>
+        <p>El resultado se formula en términos observables: el reconocimiento puede ser identificado por el docente durante la actividad y verificado en la evidencia descrita en la sección siguiente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="s5">
+  <div class="wrap">
+    <div class="section-grid">
+      <aside class="section-marker">
+        <div class="num">05</div>
+        <div class="lbl">Evidencia</div>
+      </aside>
+      <div class="section-body">
+        <h2>Cómo se demuestra el aprendizaje.</h2>
+        <p class="dropcap">La evidencia adopta la forma de un <strong>video corto, de uno a dos minutos</strong>, registrado durante la fase de práctica. En él, el estudiante —frente a las tarjetas de vocales con RA— nombra cada vocal y pronuncia una palabra que comience con ella, demostrando el reconocimiento y la asociación grafema-imagen-palabra.</p>
+        <dl class="spec">
+          <dt>Formato</dt><dd>Video horizontal (.mp4)</dd>
+          <dt>Duración</dt><dd>1 a 2 minutos por estudiante</dd>
+          <dt>Captura</dt><dd>Desde la misma app o cámara externa</dd>
+          <dt>Almacenamiento</dt><dd>Carpeta compartida del grupo de clase</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="s6">
+  <div class="wrap">
+    <div class="section-grid">
+      <aside class="section-marker">
+        <div class="num">06</div>
+        <div class="lbl">Secuencia</div>
+      </aside>
+      <div class="section-body">
+        <h2>Tres momentos en una sola sesión.</h2>
+        <p>La actividad se estructura en tres momentos consecutivos que ocupan los <strong>cuarenta y cinco minutos</strong> de la clase. Cada momento responde a una intención pedagógica distinta y se conecta con el siguiente sin solución de continuidad.</p>
+        <p>La secuencia se sustenta en los principios del <em class="iital">aprendizaje activo</em> y del aprendizaje significativo (Ausubel, 2002): el estudiante construye el nuevo conocimiento a partir de sus saberes previos —activados en la fase de exploración—, lo elabora con el apoyo de un mediador —en la fase de aprendizaje— y lo consolida mediante una práctica situada en realidad aumentada.</p>
+        <div class="timeline">
+          <div class="tl-row">
+            <div class="tl-num">i.</div>
+            <div class="tl-meta"><b>Exploración</b>10 minutos</div>
+            <div class="tl-content">
+              <h4>Lluvia de ideas <em>guiada</em>.</h4>
+              <p>Los estudiantes observan su entorno inmediato y mencionan, orientados por la docente, objetos cuyo nombre inicia con cada vocal. La actividad activa conocimientos previos y dispone al grupo para el contenido nuevo.</p>
+            </div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-num">ii.</div>
+            <div class="tl-meta"><b>Aprendizaje</b>15 minutos</div>
+            <div class="tl-content">
+              <h4>Video <em>animado</em> en la app.</h4>
+              <p>Visualización del video integrado, donde se presentan las cinco vocales asociadas a un valor —A=Alegre, E=Elegante, I=Inteligente, O=Optimista, U=Unida—. La docente refuerza la asociación con ejemplos visuales en pantalla.</p>
+            </div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-num">iii.</div>
+            <div class="tl-meta"><b>Práctica</b>20 minutos</div>
+            <div class="tl-content">
+              <h4>Realidad aumentada <em>en mano</em>.</h4>
+              <p>Trabajo individual o en parejas con la tableta. Los estudiantes enfocan, mediante la cámara de la app, las tarjetas físicas de cada vocal y descubren las animaciones en realidad aumentada, repitiendo en voz alta la vocal y la palabra asociada.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="s7">
+  <div class="wrap">
+    <div class="section-grid">
+      <aside class="section-marker">
+        <div class="num">07</div>
+        <div class="lbl">Evaluación</div>
+      </aside>
+      <div class="section-body">
+        <h2>Una evaluación <em>formativa</em>.</h2>
+        <p class="dropcap">La propuesta opta por una evaluación <strong>formativa, de carácter cualitativo</strong>, basada en la observación directa durante la actividad y en el análisis del video de evidencia descrito en la sección 05.</p>
+        <dl class="spec">
+          <dt>Seguimiento</dt><dd>Observación directa durante los tres momentos, lista de cotejo con las cinco vocales como indicadores y análisis del video de evidencia.</dd>
+          <dt>Retroalimentación</dt><dd>Oral e inmediata durante la práctica con RA, reflexión grupal al cierre de la sesión y devolución individual a partir del video registrado.</dd>
+          <dt>Instrumentos</dt><dd>Lista de cotejo simple, registro anecdótico del docente y video de evidencia del estudiante.</dd>
+        </dl>
+        <div class="justification">
+          <div class="label">Justificación</div>
+          <p>En grado primero el aprendizaje de las vocales es un proceso <em>en construcción</em> que no admite la lógica binaria de aprobado / no aprobado. La evaluación formativa permite acompañar al estudiante durante el proceso, retroalimentar de inmediato y ajustar la enseñanza según las dificultades observadas en cada caso.</p>
+          <p>Es además coherente con el enfoque <em>lúdico, exploratorio y por descubrimiento</em> que propone la app: medir un resultado final con nota cerraría prematuramente un proceso que está pensado para mantenerse abierto y replicable a lo largo de varias sesiones.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="s8">
+  <div class="wrap">
+    <div class="section-grid">
+      <aside class="section-marker">
+        <div class="num">08</div>
+        <div class="lbl">Referencias</div>
+      </aside>
+      <div class="section-body">
+        <h2>Referencias <em>bibliográficas</em>.</h2>
+        <p>Fuentes consultadas para la fundamentación teórica de la propuesta, presentadas en formato <strong>APA, séptima edición</strong>.</p>
+        <ol class="refs">
+          <li>Ausubel, D. P. (2002). <em>Adquisición y retención del conocimiento: Una perspectiva cognitiva</em>. Paidós.</li>
+          <li>Cabero-Almenara, J., &amp; Barroso-Osuna, J. (2016). Posibilidades educativas de la Realidad Aumentada. <em>Journal of New Approaches in Educational Research</em>, <em>5</em>(1), 46–52.</li>
+          <li>Ministerio de Educación Nacional. (2006). <em>Estándares básicos de competencias en lenguaje, matemáticas, ciencias y ciudadanas</em>. MEN.</li>
+          <li>Ministerio de Educación Nacional. (2016). <em>Derechos básicos de aprendizaje: Lenguaje</em>. MEN.</li>
+          <li>Vygotsky, L. S. (2000). <em>El desarrollo de los procesos psicológicos superiores</em>. Crítica.</li>
+          <li>Wiggins, G., &amp; McTighe, J. (2005). <em>Understanding by design</em> (2.ª ed.). Association for Supervision and Curriculum Development.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wf-section" id="s9">
+  <div class="wrap">
+    <div class="wf-head">
+      <h2>Anexo<br><em>Pantallas</em> de la app.</h2>
+      <p>Bocetos de baja fidelidad de las seis pantallas principales de MetAClass. Cada pantalla corresponde a un momento de la secuencia didáctica y se describe con su título y los textos clave que orientan la interacción del estudiante.</p>
+    </div>
+
+    <div class="wf-hero">
+      <div class="copy">
+        <div class="fig">Fig. 01 — Pantalla principal del recurso</div>
+        <h3>El momento de <em>Realidad Aumentada</em>.</h3>
+        <p>La pantalla central de la experiencia. El estudiante enfoca con la tableta una tarjeta física con una vocal y, en cuestión de segundos, aparece sobre ella una animación que asocia la letra con su valor —en este ejemplo, la <em>A</em> de Alegre—.</p>
+        <p>Esta es la pantalla que materializa el aprendizaje significativo de la propuesta y la que produce, en último término, la evidencia de aprendizaje.</p>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone phone-big">
+          <div class="phone-screen">
+            <div class="s-bar"><span>9:41</span><span>•••</span></div>
+            <div class="s-content scr5">
+              <div class="top-bar"><span class="crumb">03 · Práctica</span><span class="crumb">A · Alegre</span></div>
+              <div class="cam">
+                <div class="corners"></div>
+                <div class="corners-b"></div>
+                <div class="marker">A</div>
+                <div class="label-ar">Vocal detectada</div>
+              </div>
+              <div class="ctrl">
+                <div class="btn-w outline">Repetir</div>
+                <div class="btn-w">Grabar evidencia</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-grid">
+      <div class="wf-figure">
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="s-bar"><span>9:41</span><span>•••</span></div>
+              <div class="s-content scr1">
+                <div>
+                  <div class="brand-mark">MetAClass</div>
+                  <div class="brand-sub">Vocales con RA</div>
+                </div>
+                <div class="vowels">
+                  <div class="vw">A</div>
+                  <div class="vw">E</div>
+                  <div class="vw">I</div>
+                  <div class="vw">O</div>
+                  <div class="vw">U</div>
+                </div>
+                <p class="tagline">Una aventura para descubrir las cinco vocales.</p>
+                <div class="btns">
+                  <div class="btn-w">Comenzar</div>
+                  <div class="btn-w outline">Soy docente</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fig-label">Fig. 02 · Portada</div>
+        <h5>Inicio de la <em>app</em></h5>
+        <p>Marca, vocales protagonistas y acceso al recurso.</p>
+      </div>
+
+      <div class="wf-figure">
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="s-bar"><span>9:41</span><span>•••</span></div>
+              <div class="s-content scr2">
+                <div class="greeting">Hola, <em>explorador</em></div>
+                <div class="bar tiny"></div>
+                <div class="menu-item">
+                  <span class="n">i.</span>
+                  <div class="info">
+                    <div class="ttl">Exploración</div>
+                    <div class="desc">¿Qué empieza con cada vocal?</div>
+                  </div>
+                </div>
+                <div class="menu-item active">
+                  <span class="n">ii.</span>
+                  <div class="info">
+                    <div class="ttl">Aprendizaje</div>
+                    <div class="desc">Conoce las vocales en video.</div>
+                  </div>
+                </div>
+                <div class="menu-item">
+                  <span class="n">iii.</span>
+                  <div class="info">
+                    <div class="ttl">Práctica con RA</div>
+                    <div class="desc">Enfoca y descubre.</div>
+                  </div>
+                </div>
+                <div class="menu-item">
+                  <span class="n">iv.</span>
+                  <div class="info">
+                    <div class="ttl">Cierre</div>
+                    <div class="desc">Mira tu video y comparte.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fig-label">Fig. 03 · Menú</div>
+        <h5>Las cuatro <em>etapas</em></h5>
+        <p>Acceso a los tres momentos didácticos y al cierre.</p>
+      </div>
+
+      <div class="wf-figure">
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="s-bar"><span>9:41</span><span>•••</span></div>
+              <div class="s-content scr3">
+                <div class="bar tiny"></div>
+                <div class="q">¿Qué empieza con la <em>A</em>?</div>
+                <div class="bar s"></div>
+                <div class="grid">
+                  <div class="item selected"><div class="img-ph"></div><div class="lbl">Abeja</div></div>
+                  <div class="item"><div class="img-ph"></div><div class="lbl">Casa</div></div>
+                  <div class="item"><div class="img-ph"></div><div class="lbl">Árbol</div></div>
+                  <div class="item"><div class="img-ph"></div><div class="lbl">Sol</div></div>
+                  <div class="item"><div class="img-ph"></div><div class="lbl">Avión</div></div>
+                  <div class="item"><div class="img-ph"></div><div class="lbl">Pez</div></div>
+                </div>
+                <div class="btn-w" style="margin-top:.5rem">Continuar →</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fig-label">Fig. 04 · Exploración</div>
+        <h5>Lluvia de <em>ideas</em></h5>
+        <p>El estudiante toca las palabras que comienzan con la vocal.</p>
+      </div>
+
+      <div class="wf-figure">
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="s-bar"><span>9:41</span><span>•••</span></div>
+              <div class="s-content scr4">
+                <div class="bar tiny"></div>
+                <div class="bar tt"></div>
+                <div class="bar s"></div>
+                <div class="video">
+                  <div class="play"></div>
+                  <div class="progress"></div>
+                </div>
+                <div class="chips">
+                  <span class="chip">A · Alegre</span>
+                  <span class="chip">E · Elegante</span>
+                  <span class="chip">I · Inteligente</span>
+                  <span class="chip">O · Optimista</span>
+                  <span class="chip">U · Unida</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fig-label">Fig. 05 · Aprendizaje</div>
+        <h5>Las vocales en <em>video</em></h5>
+        <p>Reproductor con etiquetas de los valores asociados.</p>
+      </div>
+
+      <div class="wf-figure">
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="s-bar"><span>9:41</span><span>•••</span></div>
+              <div class="s-content scr6">
+                <div class="medal">★</div>
+                <h6>¡Lo <em>lograste</em>!</h6>
+                <p class="desc-line">Reconociste las cinco vocales y grabaste tu video.</p>
+                <div class="stars">
+                  <div class="star on"></div>
+                  <div class="star on"></div>
+                  <div class="star on"></div>
+                  <div class="star on"></div>
+                  <div class="star"></div>
+                </div>
+                <div class="actions">
+                  <div class="btn-w">Ver mi video</div>
+                  <div class="btn-w outline">Compartir con la profe</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fig-label">Fig. 06 · Cierre</div>
+        <h5>Evidencia y <em>celebración</em></h5>
+        <p>Acceso al video grabado y opción para compartir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="colophon">
+  <div class="wrap">
+    <div class="col-grid">
+      <div>
+        <div class="brand">MetAClass<em>una propuesta para descubrir las vocales</em></div>
+      </div>
+      <div>
+        <h6>Autor</h6>
+        <p><strong style="color:#F2EEE5;font-weight:500">Eric Daniel Zúñiga Arredondo</strong><br>Estudiante · Diseño Instruccional</p>
+      </div>
+      <div>
+        <h6>Sobre el documento</h6>
+        <p>Documento elaborado en el marco de la Actividad 1 del módulo de Diseño Instruccional. Trabajo colaborativo, máximo cuatro estudiantes.</p>
+      </div>
+      <div>
+        <h6>Composición</h6>
+        <ul>
+          <li>Newsreader · texto</li>
+          <li>Instrument Serif · cursiva</li>
+          <li>Geist · interfaz</li>
+          <li>JetBrains Mono · datos</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-bottom">
+      <span>© 2026 — MetAClass</span>
+      <span>Versión 1.0 · Abril 2026</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
